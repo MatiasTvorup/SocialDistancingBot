@@ -1,4 +1,5 @@
 src/credentials.txt
+src/.vscode
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

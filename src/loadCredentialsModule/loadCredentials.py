@@ -10,12 +10,12 @@ def loadCredentialsFromFile(credentialFilePath):
     print("File not found")
     return None
   
-  if(len(credentialLines) < 2):
+  if(len(credentialLines) < 1):
     print("Not enough lines in credentials.txt")
     return None
-  elif(len(credentialLines) > 2):
-    print("Might be too many lines in credentials.txt, returning first 2 lines")
-    return [credentialLines[0], credentialLines[1]]
+  elif(len(credentialLines) > 1):
+    print("Might be too many lines in credentials.txt, returning first line")
+    return removeNewlines([credentialLines[0]])
   else:
     return removeNewlines(credentialLines)
 
