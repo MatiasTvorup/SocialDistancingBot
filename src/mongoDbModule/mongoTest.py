@@ -8,7 +8,18 @@ def test():
   db = client['testdatabase']
   # print(db)
   collection = db['test_collection']
-  collection.insert_one({"name": "test", "param2": 456})
+  # collection.insert_one({"name": "test", "param2": 456})
+  # collection.insert_one({"name": "test", "param2": 752})
+  # collection.insert_one({"name": "test", "param2": 123})
+  # collection.insert_one({"name": "test", "param2": 785})
+  # collection.insert_one({"name": "test", "param2": 643})
+  # collection.insert_one({"name": "test", "param2": 789})
+  # out = collection.find_one({"name":"test2"})
+  out = collection.find({"name": "test"})
+  for e in out:
+    print(e)
+  # print(out)
+
   # print(collection)
 
 
