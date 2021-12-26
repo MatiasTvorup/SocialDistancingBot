@@ -20,15 +20,22 @@ def insertNewUser(discordServerId, userId):
 def infectUser(discordServerId, infectedUserId, infectedByUserId):
   col = __getCollection(discordServerId)
   #CHeck om bruger findes i collection
-  if(col.find({"UserID":infectedUserId}).count() > 0):
+  if(col.find({"UserID":infectedUserId}).alive):
     #Indsæt hvis den ikke gør.
     insertNewUser(discordServerId, infectedUserId)
   #Derefter opdater
   col.update_one({"UserID":infectedUserId},{"$set":{"Infected":True, "InfectedByUserId":infectedByUserId, "InfectedAtTimestamp":time.time()}})
 
+def getUserList(discordServerId, userIdList):
+  col = __getCollection(discordServerId)
+  listOfUserDicts = []
+  cursor = col.find({"UserID":{"$in":userIdList}})
+  for user in cursor:
+    listOfUserDicts.append(user)
+  return listOfUserDicts
+
+
 if __name__ == "__main__":
-  x = insertNewUser("serverID"," mongobongo")
+  x = getUserList("serverID", [" testuser3", "asdasd", "infecteduser"])
   print(x)
-  col = __getCollection("serverID")
-  y = col.find_one({"_id":x})
-  print(y)
+  print(len(x))
