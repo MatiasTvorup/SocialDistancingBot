@@ -1,7 +1,9 @@
 src/credentials.txt
 src/.vscode
 src/Scripts/
-src/pyenv.cfg
+Scripts/
+src/pyvenv.cfg
+pyvenv.cfg
 
 
 # Byte-compiled / optimized / DLL files
