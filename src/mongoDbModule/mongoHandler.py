@@ -13,7 +13,7 @@ def __getCollection(discordServerId):
 
 def insertNewUser(discordServerId, userId):
   #User dataformat
-  #{"UserID": 123, "Infected": false, "InfectedbyUserID":456, "InfectedAtTimestamp"}
+  #{"UserID": 123, "Infected": false, "InfectedbyUserID":456, "InfectedAtTimestamp":123654789}
   col = __getCollection(discordServerId)
   return col.insert_one({"UserID":userId, "Infected":False, "InfectedByUserId":None, "InfectedAtTimestamp":0}).inserted_id
 
@@ -34,8 +34,11 @@ def getUserList(discordServerId, userIdList):
     listOfUserDicts.append(user)
   return listOfUserDicts
 
+def getSingleUser(discordServerId, userId):
+  col = __getCollection(discordServerId)
+  return col.find_one({"UserID": userId})
+
 
 if __name__ == "__main__":
-  x = getUserList("serverID", [" testuser3", "asdasd", "infecteduser"])
-  print(x)
-  print(len(x))
+  insertNewUser("ServerID", "Dillarmanden")
+  print(getSingleUser("ServerID", "Dillarmanden"))
