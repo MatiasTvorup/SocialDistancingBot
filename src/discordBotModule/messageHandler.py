@@ -23,7 +23,8 @@ def bindCommands(client):
     #Kommando for forklaring
     elif(message.content == "!SDB_what"):
       await message.channel.send(botExplanation(client))
-    # await message.channel.send("*yeet*")
+    elif(message.content == "!SDB_server"):
+      return
 
   return client
 
@@ -40,9 +41,10 @@ def botExplanation(client):
   """
 
 def userStats(client, userID, serverID):
-  user = mongoHandler.getSingleUser(serverID, userID)
+  user = mongoHandler.getSingleUser(str(serverID), str(userID))
   if(user["Infected"]==True):
-    infectedByName = client.get_user(user["InfectedbyUserID"]).display_name
+    infectedBy = client.get_user(int(user["InfectedByUserId"]))
+    infectedByName = infectedBy.display_name if infectedBy != None else "licking a doorknob"
     return "You have been infected by " + infectedByName + " at " + datetime.utcfromtimestamp(user["InfectedAtTimestamp"]).strftime('%Y-%m-%d %H:%M:%S')
   else:
     return "You haven't been infected.\nYet."
