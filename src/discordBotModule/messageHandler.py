@@ -14,25 +14,26 @@ def bindCommands(client):
     elif(client.user in message.mentions):
       await message.channel.send("Type !SDB_help for a list of commands.")
     #Kommando for help
-    elif(message.content == "!SDB_help"):
+    elif(message.content.lower() == "!SDB_help".lower()):
       await message.channel.send(helpInstructions())
     #Kommando for serverstats
     #Kommando for egne stats
-    elif(message.content == "!SDB_me"):
+    elif(message.content.lower() == "!SDB_me".lower()):
       await message.channel.send(userStats(client, message.author.id, message.guild.id))
     #Kommando for forklaring
-    elif(message.content == "!SDB_what"):
+    elif(message.content.lower() == "!SDB_what".lower()):
       await message.channel.send(botExplanation(client))
-    elif(message.content == "!SDB_server"):
-      return
+    elif(message.content.lower() == "!SDB_server".lower()):
+      await message.channel.send(serverStats(message.guild))
+      
 
   return client
 
 def helpInstructions():
   return """
 **!SDB_help** - Shows a list of commands.
-**!SDB_server** - Shows percentage of 'infected' users in this server.
-**!SDB_me** - Shows if you are 'infected', when you where infected and by who.
+**!SDB_server** - Shows how many users in this server are 'infected'.
+**!SDB_me** - Shows if you are 'infected', when you were infected and by who.
 **!SDB_what** - Shows an explanation of what this bot does."""
 
 def botExplanation(client):
@@ -48,3 +49,8 @@ def userStats(client, userID, serverID):
     return "You have been infected by " + infectedByName + " at " + datetime.utcfromtimestamp(user["InfectedAtTimestamp"]).strftime('%Y-%m-%d %H:%M:%S')
   else:
     return "You haven't been infected.\nYet."
+
+def serverStats(guild):
+  memberCount = guild.member_count
+  infectedCount = len(mongoHandler.getInfectedUsers(guild.id))
+  return  str(infectedCount) + " out of " + str(memberCount) + " people have been infected."

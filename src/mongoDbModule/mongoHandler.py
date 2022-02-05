@@ -18,6 +18,8 @@ def insertNewUser(discordServerId, userId):
   return col.insert_one({"UserID":userId, "Infected":False, "InfectedByUserId":None, "InfectedAtTimestamp":0}).inserted_id
 
 def infectUser(discordServerId, infectedUserId, infectedByUserId):
+  infectedUserId = str(infectedUserId)
+  infectedByUserId = str(infectedByUserId)
   col = __getCollection(discordServerId)
   #CHeck om bruger findes i collection
   if(not col.find({"UserID":infectedUserId}).alive):
@@ -54,6 +56,11 @@ def getSingleUser(discordServerId, userId):
     return getSingleUser(discordServerId, userId)
   else:
     return user
+
+def getInfectedUsers(discordServerId):
+  col = __getCollection(discordServerId)
+  return list(col.find({"Infected":True}))
+
 
 
 if __name__ == "__main__":

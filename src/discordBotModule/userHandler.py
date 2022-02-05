@@ -6,6 +6,7 @@ def bindUserEvents(client):
     async def on_ready():
         for guild in client.guilds:
             checkGuildMembers(guild)
+            checkForInfected(guild)
         print("Ready.")
         #Når botten vågner skal der køres et tjek.
 
@@ -37,3 +38,9 @@ def checkGuildMembers(guild):
     for member in guild.members:
         if(not str(member.id) in userIds):
             mongoHandler.insertNewUser(str(guild.id),str(member.id))
+
+def checkForInfected(guild):
+    infectedMembers = mongoHandler.getInfectedUsers(guild.id)
+    if(len(infectedMembers) > 0):
+        return
+    mongoHandler.infectUser(guild.id, guild.owner.id, "0")
